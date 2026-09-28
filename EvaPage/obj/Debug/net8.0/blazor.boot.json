@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "EvaPage",
   "resources": {
-    "hash": "sha256-NAY0dvD3feTMI4KUU+Z3x8gW04/tlzq6JyWZJAHxa6E=",
+    "hash": "sha256-K5hDggh/VQBFhLPIMLTlu1hjUyCi/qAujKl8FNwsQuE=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-dexsp+9ih2C28zVhNnPXUbkz2QCq7lHpkyDcmaLl7NQ="
     },
@@ -209,10 +209,10 @@
       "mscorlib.wasm": "sha256-pP80UGziulDYhvVdeUaGEq9FlrHQDQmnCqVvx1FJZis=",
       "netstandard.wasm": "sha256-ARMsMyhWuSDjvzisfZbnEptnxh8Vh7VpHPhuT6iazy0=",
       "System.Private.CoreLib.wasm": "sha256-+28m4yuZsdz9ij1sJHvNH896fSI8gXgrQ9bhGO76Qqo=",
-      "EvaPage.wasm": "sha256-Q9VHVFFEzQeY49bTv3Ju5EZ3JQAm7aiR4EOy94giq/k="
+      "EvaPage.wasm": "sha256-+PFaWHElrwZgo8RJJcW4Rw81dw9kSoxqN1ZTYo6sA8o="
     },
     "pdb": {
-      "EvaPage.pdb": "sha256-eGoRxMUDo3e0gY4iewXWt2GQPYxQDM4QegX4JcagWJM="
+      "EvaPage.pdb": "sha256-PsOrOnMXcCa/0af52eKyL4LXYmr3H48gYWK2IKeXN7w="
     }
   },
   "cacheBootResources": true,

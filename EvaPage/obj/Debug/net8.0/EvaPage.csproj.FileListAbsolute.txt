@@ -2054,9 +2054,6 @@ C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\xo1ptr4wy5-{0}-tptq2av103-tptq2av103.gz
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\vjw10xzae1-{0}-lfu7j35m59-lfu7j35m59.gz
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\trgxqo5hn3-{0}-oyz0vx2fzb-oyz0vx2fzb.gz
-C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\lkvfwqmin0-{0}-dkmi0ymnir-dkmi0ymnir.gz
-C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\abl0ii77md-{0}-gq5ae7hkxq-gq5ae7hkxq.gz
-C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\ke2d4xoohq-{0}-wlhyru14mh-wlhyru14mh.gz
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\staticwebassets.development.json
@@ -2067,3 +2064,6 @@ C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\EvaPage.dl
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\refint\EvaPage.dll
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\EvaPage.pdb
 C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\ref\EvaPage.dll
+C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\lkvfwqmin0-{0}-k1gv3nfo75-k1gv3nfo75.gz
+C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\abl0ii77md-{0}-2g4pefn6wr-2g4pefn6wr.gz
+C:\Users\Adrian\Desktop\School\AppDev\AppDev\EvaPage\obj\Debug\net8.0\compressed\ke2d4xoohq-{0}-s0ak4geuxb-s0ak4geuxb.gz
