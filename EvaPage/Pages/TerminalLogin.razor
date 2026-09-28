@@ -1,42 +1,114 @@
 @page "/"
 @page "/login"
-@layout Layout.EmptyLayout
 @inject NavigationManager NavManager
 
-<div class="terminal-bg">
-    <div class="crt-beam"></div>
+<div class="relative w-screen h-screen m-0 box-border overflow-hidden flex flex-col items-center justify-center bg-[#0d0614]
+            bg-[radial-gradient(ellipse_1200px_700px_at_50%_32%,rgba(74,36,112,0.55),transparent_60%),radial-gradient(ellipse_900px_500px_at_50%_100%,rgba(242,169,59,0.10),transparent_60%)]">
 
-    <div class="stripe stripe-left"></div>
-    <div class="stripe stripe-right"></div>
-    <div class="ground"></div>
+    <!-- scanline texture (kept in terminal.css: repeating-gradient + blend mode) -->
+    <div class="scanlines pointer-events-none absolute inset-0 z-[1]"></div>
 
-    <div class="emblem">
-        <img src="icon-142.png" alt="Custom Emblem" class="emblem-icon" />
-        <div class="emblem-text">
-            <span>UNIT</span>
-            <span>CTL</span>
-        </div>
-        <div class="emblem-motto">OPERATIONS CONTROL SYSTEM</div>
+    <!-- corner hazard tabs -->
+    <div class="pointer-events-none fixed top-0 left-0 z-[2] w-[clamp(90px,14vw,150px)] h-[clamp(90px,14vw,150px)]">
+        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" class="w-full h-full block">
+            <polygon points="0,0 150,0 0,150" fill="#8fd13f" opacity="0.9" />
+            <polygon points="0,0 95,0 0,95" fill="#f2a93b" opacity="0.55" />
+            <polygon points="0,0 55,0 0,55" fill="#4a2470" opacity="0.85" />
+        </svg>
+    </div>
+    <div class="pointer-events-none fixed top-0 right-0 z-[2] w-[clamp(90px,14vw,150px)] h-[clamp(90px,14vw,150px)] -scale-x-100">
+        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" class="w-full h-full block">
+            <polygon points="0,0 150,0 0,150" fill="#8fd13f" opacity="0.9" />
+            <polygon points="0,0 95,0 0,95" fill="#f2a93b" opacity="0.55" />
+            <polygon points="0,0 55,0 0,55" fill="#4a2470" opacity="0.85" />
+        </svg>
     </div>
 
-    <div class="login-card">
-        <EditForm Model="@credentials" OnValidSubmit="HandleEnterUnit">
-            <label class="field-label" for="operatorId">Issued ID:</label>
-            <InputText id="operatorId" class="field-input" @bind-Value="credentials.OperatorId" />
+    <!-- console -->
+    <div class="relative z-[3] w-full max-w-[420px] flex flex-col items-center px-6">
 
-            <label class="field-label" for="password">Password:</label>
-            <InputText id="password" type="password" class="field-input" @bind-Value="credentials.Password" />
+        <!-- emblem ring holding the existing logo (ring inset border kept in terminal.css) -->
+        <div class="emblem-ring relative w-[150px] h-[150px] mb-[-34px] z-[4] rounded-md
+                    border border-[#c9a8e8]/50
+                    shadow-[0_0_0_1px_rgba(0,0,0,0.4),0_0_28px_rgba(139,95,196,0.45),inset_0_0_24px_rgba(0,0,0,0.55)]
+                    bg-gradient-to-br from-[#4a2470] via-[#2a1240] to-[#0d0614]
+                    flex items-center justify-center">
+            <img src="icon-142.png" alt="Custom Emblem"
+                 class="w-3/5 h-3/5 object-contain drop-shadow-[0_0_6px_rgba(242,169,59,0.35)]" />
+        </div>
 
-            <div class="button-row">
-                <button type="submit" class="term-button">Enter Unit</button>
-                <button type="button" class="term-button" @onclick="HandleRegisterPilot">Register Pilot</button>
-            </div>
+        <!-- panel (corner brackets kept in terminal.css: ::before/::after) -->
+        <div class="panel-brackets relative w-full pt-14 pb-8 px-8
+                    bg-gradient-to-b from-[#2a1240]/[0.92] to-[#0d0614]/[0.94]
+                    border border-[#8fd13f]/35
+                    shadow-[0_0_0_1px_rgba(242,169,59,0.12),0_24px_60px_rgba(0,0,0,0.55)]">
 
-            @if (!string.IsNullOrEmpty(statusMessage))
-            {
-                <div class="status-message">@statusMessage</div>
-            }
-        </EditForm>
+            <p class="text-center [font-family:'JetBrains_Mono',monospace] text-[11px] tracking-[0.22em] text-[#8fd13f] mb-1
+                      drop-shadow-[0_0_8px_rgba(143,209,63,0.5)]">
+                NERV // SYNC INTERFACE
+            </p>
+            <h1 class="text-center [font-family:'Rajdhani',sans-serif] font-semibold text-xl tracking-wide text-[#ece5f2] mb-6">
+                Unit Access Terminal
+            </h1>
+
+            <EditForm Model="@credentials" OnValidSubmit="HandleEnterUnit">
+
+                <div class="mb-4">
+                    <label class="block [font-family:'JetBrains_Mono',monospace] text-[11px] tracking-[0.14em] text-[#c9a8e8] mb-1.5"
+                           for="operatorId">
+                        ISSUED ID
+                    </label>
+                    <InputText id="operatorId"
+                               class="w-full py-2.5 px-3 bg-[#ece5f2]/[0.06] border border-[#c9a8e8]/35 border-l-[3px] border-l-[#8fd13f]
+                                      [font-family:'JetBrains_Mono',monospace] text-sm tracking-wide text-[#ece5f2]
+                                      focus:outline-none focus:border-[#f2a93b] focus:border-l-[#f2a93b] focus:bg-[#f2a93b]/[0.06]"
+                               placeholder="0000-0000"
+                               @bind-Value="credentials.OperatorId" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="block [font-family:'JetBrains_Mono',monospace] text-[11px] tracking-[0.14em] text-[#c9a8e8] mb-1.5"
+                           for="password">
+                        PASSWORD
+                    </label>
+                    <InputText id="password" type="password"
+                               class="w-full py-2.5 px-3 bg-[#ece5f2]/[0.06] border border-[#c9a8e8]/35 border-l-[3px] border-l-[#8fd13f]
+                                      [font-family:'JetBrains_Mono',monospace] text-sm tracking-wide text-[#ece5f2]
+                                      focus:outline-none focus:border-[#f2a93b] focus:border-l-[#f2a93b] focus:bg-[#f2a93b]/[0.06]"
+                               placeholder="••••••••"
+                               @bind-Value="credentials.Password" />
+                </div>
+
+                <div class="flex gap-2.5 mt-6">
+                    <button type="submit"
+                            class="flex-1 py-3 px-2.5 [font-family:'Rajdhani',sans-serif] font-bold text-[14.5px] tracking-wide cursor-pointer
+                                   bg-gradient-to-b from-[#8fd13f] to-[#4c7a1f] text-[#10240a]
+                                   [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]
+                                   hover:brightness-110">
+                        Enter Unit
+                    </button>
+                    <button type="button"
+                            class="flex-1 py-3 px-2.5 [font-family:'Rajdhani',sans-serif] font-bold text-[14.5px] tracking-wide cursor-pointer
+                                   bg-transparent border border-[#f2a93b] text-[#f2a93b]
+                                   [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]
+                                   hover:brightness-110"
+                            @onclick="HandleRegisterPilot">
+                        Register Pilot
+                    </button>
+                </div>
+
+                @if (!string.IsNullOrEmpty(statusMessage))
+                {
+                    <div class="mt-4 text-center [font-family:'JetBrains_Mono',monospace] text-[13px] text-[#8fd13f]">
+                        @statusMessage
+                    </div>
+                }
+            </EditForm>
+
+            <p class="mt-5 text-center [font-family:'JetBrains_Mono',monospace] text-[10px] tracking-[0.16em] text-[#c9a8e8]/45">
+                NERV HQ — NEO TOKYO-3
+            </p>
+        </div>
     </div>
 </div>
 
@@ -46,21 +118,21 @@
 
     private void HandleEnterUnit()
     {
-        // Require text inside OperatorId before transporting
-        if (string.IsNullOrWhiteSpace(credentials.OperatorId))
+        // No real credential check — this only confirms the button/navigation wiring works.
+        // Any non-empty text in both fields is treated as "good enough" for now.
+        if (string.IsNullOrWhiteSpace(credentials.OperatorId) || string.IsNullOrWhiteSpace(credentials.Password))
         {
-            statusMessage = "ID required for synchronization.";
+            statusMessage = "ID and password required for synchronization.";
+            return;
         }
-        else
-        {
-            NavManager.NavigateTo("/test");
-        }
+
+        statusMessage = $"Authenticating {credentials.OperatorId}...";
+        NavManager.NavigateTo("/test");
     }
 
     private void HandleRegisterPilot()
     {
-        // Transports directly to test page when Register Pilot is clicked
-        NavManager.NavigateTo("/test");
+        statusMessage = "Redirecting to pilot registration...";
     }
 
     private class Credentials
@@ -69,4 +141,3 @@
         public string Password { get; set; } = string.Empty;
     }
 }
-

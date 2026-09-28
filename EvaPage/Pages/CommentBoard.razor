@@ -1,0 +1,180 @@
+@page "/comments"
+@using EvaPage.Services
+@inject CommentService Board
+@inject NavigationManager NavManager
+
+<div class="relative min-h-screen w-screen box-border flex flex-col items-center px-6 py-12 bg-[#0d0614]
+            bg-[radial-gradient(ellipse_1200px_700px_at_50%_20%,rgba(74,36,112,0.55),transparent_60%),radial-gradient(ellipse_900px_500px_at_50%_100%,rgba(242,169,59,0.10),transparent_60%)]">
+
+    <div class="scanlines pointer-events-none fixed inset-0 z-[1]"></div>
+
+    <!-- corner hazard tabs -->
+    <div class="pointer-events-none fixed top-0 left-0 z-[2] w-[clamp(90px,14vw,150px)] h-[clamp(90px,14vw,150px)]">
+        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" class="w-full h-full block">
+            <polygon points="0,0 150,0 0,150" fill="#8fd13f" opacity="0.9" />
+            <polygon points="0,0 95,0 0,95" fill="#f2a93b" opacity="0.55" />
+            <polygon points="0,0 55,0 0,55" fill="#4a2470" opacity="0.85" />
+        </svg>
+    </div>
+    <div class="pointer-events-none fixed top-0 right-0 z-[2] w-[clamp(90px,14vw,150px)] h-[clamp(90px,14vw,150px)] -scale-x-100">
+        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" class="w-full h-full block">
+            <polygon points="0,0 150,0 0,150" fill="#8fd13f" opacity="0.9" />
+            <polygon points="0,0 95,0 0,95" fill="#f2a93b" opacity="0.55" />
+            <polygon points="0,0 55,0 0,55" fill="#4a2470" opacity="0.85" />
+        </svg>
+    </div>
+
+    <div class="relative z-[3] w-full max-w-[640px] flex flex-col gap-6">
+
+        <!-- header -->
+        <div class="text-center">
+            <p class="[font-family:'JetBrains_Mono',monospace] text-[11px] tracking-[0.22em] text-[#8fd13f] mb-1
+                      drop-shadow-[0_0_8px_rgba(143,209,63,0.5)]">
+                NERV // PILOT COMMUNICATIONS
+            </p>
+            <h1 class="[font-family:'Rajdhani',sans-serif] font-bold text-3xl tracking-wide text-[#ece5f2]">
+                Comment Board
+            </h1>
+        </div>
+
+        <!-- composer -->
+        <div class="panel-brackets relative p-6
+                    bg-gradient-to-b from-[#2a1240]/[0.92] to-[#0d0614]/[0.94]
+                    border border-[#8fd13f]/35
+                    shadow-[0_0_0_1px_rgba(242,169,59,0.12),0_24px_60px_rgba(0,0,0,0.55)]">
+
+            <label class="block [font-family:'JetBrains_Mono',monospace] text-[11px] tracking-[0.14em] text-[#c9a8e8] mb-1.5"
+                   for="callsign">
+                CALLSIGN
+            </label>
+            <input id="callsign" type="text" maxlength="24" placeholder="e.g. Ikari-03"
+                   @bind="callsign" @bind:event="oninput"
+                   class="w-full mb-4 py-2.5 px-3 bg-[#ece5f2]/[0.06] border border-[#c9a8e8]/35 border-l-[3px] border-l-[#8fd13f]
+                          [font-family:'JetBrains_Mono',monospace] text-sm tracking-wide text-[#ece5f2]
+                          focus:outline-none focus:border-[#f2a93b] focus:border-l-[#f2a93b] focus:bg-[#f2a93b]/[0.06]" />
+
+            <label class="block [font-family:'JetBrains_Mono',monospace] text-[11px] tracking-[0.14em] text-[#c9a8e8] mb-1.5"
+                   for="message">
+                TRANSMISSION
+            </label>
+            <textarea id="message" rows="3" maxlength="@MaxLength" placeholder="Enter your comment..."
+                      @bind="draft" @bind:event="oninput"
+                      class="w-full py-2.5 px-3 bg-[#ece5f2]/[0.06] border border-[#c9a8e8]/35 border-l-[3px] border-l-[#8fd13f]
+                             [font-family:'JetBrains_Mono',monospace] text-sm tracking-wide text-[#ece5f2] resize-none
+                             focus:outline-none focus:border-[#f2a93b] focus:border-l-[#f2a93b] focus:bg-[#f2a93b]/[0.06]"></textarea>
+
+            <div class="flex items-center justify-between mt-3">
+                <span class="[font-family:'JetBrains_Mono',monospace] text-[11px] text-[#c9a8e8]/60">
+                    @draft.Length / @MaxLength
+                </span>
+                <button type="button" @onclick="Post"
+                        class="py-2.5 px-6 [font-family:'Rajdhani',sans-serif] font-bold text-sm tracking-wide cursor-pointer
+                               bg-gradient-to-b from-[#8fd13f] to-[#4c7a1f] text-[#10240a]
+                               [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]
+                               hover:brightness-110">
+                    Transmit
+                </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(status))
+            {
+                <div class="mt-3 [font-family:'JetBrains_Mono',monospace] text-[12px] text-[#8fd13f]">@status</div>
+            }
+        </div>
+
+        <!-- comment list -->
+        @foreach (var c in Board.GetAll())
+        {
+            var mine = MyRating(c);
+            var own = IsOwn(c);
+
+            <div class="relative p-5
+                        bg-gradient-to-b from-[#2a1240]/[0.80] to-[#0d0614]/[0.90]
+                        border border-[#c9a8e8]/25 border-l-[3px] border-l-[#f2a93b]">
+
+                <div class="flex items-baseline justify-between mb-2">
+                    <span class="[font-family:'Rajdhani',sans-serif] font-bold text-lg text-[#ece5f2]">@c.Author</span>
+                    <span class="[font-family:'JetBrains_Mono',monospace] text-[10px] tracking-wider text-[#c9a8e8]/50">
+                        @c.PostedAt.ToString("yyyy-MM-dd HH:mm")
+                    </span>
+                </div>
+
+                <p class="[font-family:'JetBrains_Mono',monospace] text-[13px] leading-relaxed text-[#ece5f2]/90 mb-4 break-words">
+                    @c.Text
+                </p>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-0.5">
+                        @for (var n = 1; n <= 5; n++)
+                        {
+                            var star = n;
+                            <button type="button"
+                                    disabled="@own"
+                                    title="@(own ? "You can't rate your own transmission" : $"Rate {star} of 5")"
+                                    @onclick="() => Rate(c, star)"
+                                    class="text-2xl leading-none px-0.5 transition-colors
+                                           @(star <= mine ? "text-[#f2a93b]" : "text-[#c9a8e8]/30")
+                                           @(own ? "cursor-not-allowed opacity-40" : "cursor-pointer hover:text-[#f2a93b]")">
+                                ★
+                            </button>
+                        }
+                    </div>
+
+                    <span class="[font-family:'JetBrains_Mono',monospace] text-[11px] text-[#8fd13f]">
+                        @if (c.Ratings.Count == 0)
+                        {
+                            <text>NO RATINGS YET</text>
+                        }
+                        else
+                        {
+                            <text>AVG @c.Average.ToString("0.0") &nbsp;(@c.Ratings.Count)</text>
+                        }
+                    </span>
+                </div>
+            </div>
+        }
+
+        <button type="button" @onclick="@(() => NavManager.NavigateTo("/test"))"
+                class="self-center py-2.5 px-6 [font-family:'Rajdhani',sans-serif] font-bold text-sm tracking-wide cursor-pointer
+                       bg-transparent border border-[#f2a93b] text-[#f2a93b]
+                       [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]
+                       hover:brightness-110">
+            Back
+        </button>
+    </div>
+</div>
+
+@code {
+    private const int MaxLength = 280;
+
+    private string callsign = string.Empty;
+    private string draft = string.Empty;
+    private string? status;
+
+    private string Me => callsign.Trim();
+
+    private bool IsOwn(Comment c) =>
+        !string.IsNullOrEmpty(Me) && string.Equals(c.Author, Me, StringComparison.OrdinalIgnoreCase);
+
+    private int MyRating(Comment c) =>
+        !string.IsNullOrEmpty(Me) && c.Ratings.TryGetValue(Me, out var r) ? r : 0;
+
+    private void Post()
+    {
+        if (string.IsNullOrWhiteSpace(callsign)) { status = "Callsign required to transmit."; return; }
+        if (string.IsNullOrWhiteSpace(draft)) { status = "Transmission cannot be empty."; return; }
+
+        Board.Add(Me, draft.Trim());
+        draft = string.Empty;
+        status = "Transmission logged.";
+    }
+
+    private void Rate(Comment c, int stars)
+    {
+        if (string.IsNullOrWhiteSpace(callsign)) { status = "Enter your callsign before rating."; return; }
+
+        status = Board.Rate(c.Id, Me, stars)
+            ? $"Rated {c.Author}'s transmission {stars}/5."
+            : "You can't rate your own transmission.";
+    }
+}
