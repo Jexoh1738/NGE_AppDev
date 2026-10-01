@@ -1,0 +1,56 @@
+.scanlines {
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(143, 209, 63, 0.035) 0px,
+        rgba(143, 209, 63, 0.035) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    mix-blend-mode: overlay;
+}
+
+.emblem-ring::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(143, 209, 63, 0.4);
+    border-radius: 4px;
+}
+
+.panel-brackets::before,
+.panel-brackets::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #f2a93b;
+}
+
+.panel-brackets::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.panel-brackets::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
+}
+
+/* Global layout reset — deliberately NOT scoped, since html/body/#app
+   live outside any component and scoped CSS can't reach them anyway. */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

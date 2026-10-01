@@ -75,3 +75,27 @@
 code {
     color: #c02d76;
 }
+
+/* Update or add this inside MainLayout.razor.css or app.css */
+.page {
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Remove default padding wrapper */
+article.content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100%;
+}
+
+
+
+
