@@ -1,0 +1,28 @@
+namespace EvaPage.Models;
+
+/// <summary>
+/// Grid position for the 2D world (tile coordinates, not pixels).
+/// </summary>
+public struct Vector2Int
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+
+    public Vector2Int(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public double DistanceTo(Vector2Int other)
+    {
+        var dx = X - other.X;
+        var dy = Y - other.Y;
+        return Math.Sqrt(dx * dx + dy * dy);
+    }
+
+    public override bool Equals(object? obj) =>
+        obj is Vector2Int other && X == other.X && Y == other.Y;
+
+    public override int GetHashCode() => HashCode.Combine(X, Y);
+}
